@@ -1,0 +1,85 @@
+{% extends 'user/_base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .sendtop {
+        background-color: #000021 !important;
+    }
+</style>
+
+<div class="main-content app-content">
+    <div class="container-fluid">
+        <div class="d-md-flex d-block my-4 page-header-breadcrumb"></div>
+
+        <div class="row">
+            <form method="post" class="col-xl-12">
+                {% csrf_token %}
+                <div class="card custom-card sendtop">
+                    <div class="card-body p-5 d-flex align-items-center justify-content-center">
+                        <div class="container">
+                            <h3 class="text-fixed-white text-center">Buy Stocks</h3>
+                            <span class="d-block fs-16 text-fixed-white text-center op-8 mb-4">
+                                Choose from any of the available stocks and become a shareholder.
+                            </span>
+
+                            <div class="p-3 mb-4 rounded currency-exchange-area">
+                                <div class="row gy-3">
+                                    <div class="col-12">
+                                        <label class="text-white pb-1">My Wallet</label>
+                                        <select name="paytype" required class="form-control form-select">
+                                            {% for wallet in user_wallets %}
+                                            <option value="{{ wallet.currency }}">
+                                                {{ wallet.currency }} Balance - ${{ wallet.balance }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="text-white pb-1">Stock</label>
+                                        <select class="form-select form-control" id="stock" name="stock">
+                                            {% for stock_id, stock in stocks.items %}
+                                            <option value="{{ stock_id }}">
+                                                {{ stock.name }} - ${{ stock.price }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="text-white pb-1">Slot</label>
+                                        <select name="quantity" id="quantity" class="form-select form-control" required>
+                                            <option value="" hidden>-- select slot --</option>
+                                            <option value='5'>5 slots</option>
+                                            <option value='6'>6 slots</option>
+                                            <option value='7'>7 slots</option>
+                                            <option value='8'>8 slots</option>
+                                            <option value='9'>9 slots</option>
+                                            <option value='10'>10 slots</option>
+                                            <option value='11'>11 slots</option>
+                                            <option value='12'>12 slots</option>
+                                            <option value='13'>13 slots</option>
+                                            <option value='14'>14 slots</option>
+                                            <option value='15'>15 slots</option>
+                                            <option value='16'>16 slots</option>
+                                            <option value='17'>17 slots</option>
+                                            <option value='18'>18 slots</option>
+                                            <option value='19'>19 slots</option>
+                                            <option value='20'>20 slots</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" name="submit" class="btn btn-success btn-wave sendtop">Buy
+                                    Stock</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,56 @@
+{% extends '../_base.html' %}
+{% load static %}
+
+{% block title %}Update Deposit Status{% endblock title %}
+
+{% block content %}
+<div class="main-content app-content">
+    <div class="container-fluid">
+
+        <div class="d-md-flex d-block my-4 page-header-breadcrumb">
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-xl-12">
+                <h5 class="fw-semibold text-center">Update Deposit Status</h5>
+                <p class="text-muted text-center col-lg-6 offset-lg-3 pb-3">
+                    Use this form to update the status of a deposit transaction.
+                </p>
+            </div>
+
+            <div class="col-xl-6 offset-xl-3">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div class="tab-content">
+
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} text-center">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+
+                            <form method="post">
+                                {% csrf_token %}
+
+                                <div class="input-group mb-3 d-flex flex-nowrap">
+                                    <span class="input-group-text">Status</span>
+                                    {{ form.status }}
+                                </div>
+
+                                <div class="d-grid mt-4 pt-1">
+                                    <button type="submit" class="btn btn-primary btn-wave">Update Deposit</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

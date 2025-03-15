@@ -1,0 +1,100 @@
+{% load static %}
+<style>
+    .app-sidebar {
+        width: 250px;
+        transition: transform 0.3s ease, width 0.3s ease;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        z-index: 100;
+    }
+
+    /* Default hidden state for small screens - sidebar slides out of view */
+    @media (max-width: 768px) {
+        .app-sidebar {
+            transform: translateX(-100%);
+        }
+    }
+
+    /* Show class will slide it back into view */
+    .app-sidebar.show {
+        transform: translateX(0);
+    }
+</style>
+
+<aside class="app-sidebar sticky" id="sidebar" style="background: #111C43;">
+    <div class="main-sidebar-header" style="background: #111C43; border:none;">
+        <a href="{% url 'user:dashboard' %}" class="header-logo">
+            <img src="{% static 'img/images/logo-light.png' %}" alt="logo" class="desktop-logo">
+        </a>
+    </div>
+
+    <div class="main-sidebar" id="sidebar-scroll">
+        <nav class="main-menu-container nav nav-pills flex-column sub-open">
+            <ul class="main-menu">
+
+                <li class="slide__category"><span class="category-name">User</span></li>
+
+                <li class="slide">
+                    <a href="{% url 'admin:dashboard' %}" class="side-menu__item">
+                        <i class="bx bx-layer side-menu__icon"></i>
+                        <span class="side-menu__label">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bx bx-credit-card side-menu__icon"></i>
+                        <span class="side-menu__label">user</span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide">
+                            <a href="{% url 'admin:user-list' %}" class="side-menu__item">All Users</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{% url 'admin:user-wallet-list' %}" class="side-menu__item">User Wallets</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bx bx-add-to-queue side-menu__icon"></i>
+                        <span class="side-menu__label">Transactions</span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide">
+                            <a href="{% url 'admin:deposits' %}" class="side-menu__item">Deposits</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{% url 'admin:withdrawals' %}" class="side-menu__item">Withdrawals</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="slide">
+                    <a href="{% url 'admin:compose-mail' %}" class="side-menu__item">
+                        <i class="bx bx-envelope text-danger side-menu__icon"></i>
+                        <span class="side-menu__label text-danger">Compose Mail</span>
+                    </a>
+                </li>
+
+                <li class="slide">
+                    <form action="{% url 'auth:logout' %}" method="POST" class="dropdown-item d-flex">
+                        {% csrf_token %}
+                        <button type="submit" class="btn block w-100 side-menu__item text-danger"
+                            style="padding: 0; border: none; background: none; cursor: pointer;">
+                            <i class="ti ti-logout fs-18 me-2 op-7"></i></i>
+                            Logout
+                        </button>
+                    </form>
+                </li>
+
+
+            </ul>
+        </nav>
+    </div>
+</aside>

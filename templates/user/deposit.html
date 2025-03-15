@@ -1,0 +1,58 @@
+{% extends 'user/_base.html' %}
+{% load static %}
+{% block title %}Deposit{% endblock title %}
+
+{% block content %}
+<div class="main-content app-content">
+    <div class="container-fluid">
+
+        <!-- Page Header -->
+        <div class="d-md-flex d-block my-4 page-header-breadcrumb">
+        </div>
+        <!-- Page Header Close -->
+        <div class="row mb-5">
+            <div class="col-xl-12">
+                <h5 class="fw-semibold text-center"> Fund your Account </h5>
+                <p class="text-muted text-center col-lg-6 offset-lg-3 pb-3">Account funding is processed
+                    automatically. Select
+                    any of the
+                    crypto assets and make deposit, funds sent to the wrong crypto asset or network cannot be
+                    recovered.</p>
+                <div class="pb-4">
+                    <center>
+                        <img src="../assets/images/bank.png" style="width: 50px; padding-right: 10px;" alt="">
+                        <img src="../assets/images/btc.png" style="width: 50px; padding-right: 10px;" alt="">
+                        <img src="../assets/images/usdt.png" style="width: 50px; padding-right: 10px;" alt="">
+                        <img src="../assets/images/eth.png" style="width: 50px; padding-right: 10px;" alt="">
+                    </center>
+                </div>
+
+            </div>
+
+            <div class="col-xl-6 offset-xl-3">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="input-group mb-3 d-flex flex-nowrap">
+                                    {{ form.method }}
+                                </div>
+
+                                <div class="input-group mb-3 d-flex flex-nowrap">
+                                    {{ form.amount }}
+                                </div>
+
+                                <div class="d-grid mt-4 pt-1">
+                                    <button type="submit" class="btn btn-primary btn-wave">Deposit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
