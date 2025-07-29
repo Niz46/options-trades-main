@@ -9,6 +9,8 @@ class LoginForm(forms.Form):
         widget=forms.EmailInput(
             attrs={
                 "class": "form-control form-control-lg",
+                "id": "email",
+                "autocomplete": "email",
                 "placeholder": "Email",
                 "required": True,
             }
@@ -18,9 +20,10 @@ class LoginForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 "class": "form-control form-control-lg",
+                "id": "password",
+                "autocomplete": "current-password",
                 "placeholder": "Password",
                 "required": True,
-                "id": "password",
             }
         )
     )

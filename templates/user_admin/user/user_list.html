@@ -38,8 +38,8 @@
                             <td>{{ forloop.counter }}</td>
                             <td><a href="{% url 'admin:user-details' user.id %}">{{ user.first_name }}</a></td>
                             <td><a href="{% url 'admin:user-details' user.id %}">{{ user.last_name }}</a></td>
-                            <td>{{ user.email }}</td>
                             <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
                             {% if user.is_active == True %}
                             <td><a href="{% url 'admin:suspend-user' user.id %}"
                                     class="btn btn-sm btn-danger text-light">Suspend</a></td>

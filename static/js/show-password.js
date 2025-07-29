@@ -1,17 +1,26 @@
+// show-password.js
+"use strict";
 
-"use strict"
+// Expose a global function matching your onclick handler
+function createPassword(inputId, btn) {
+  // 1) find the input by ID
+  const input = document.getElementById(inputId);
+  if (!input) return;
 
-// for show password 
-let createpassword = (type, ele) => {
-    document.getElementById(type).type = document.getElementById(type).type == "password" ? "text" : "password"
-    let icon = ele.childNodes[0].classList
-    let stringIcon = icon.toString()
-    if (stringIcon.includes("ri-eye-line")) {
-        ele.childNodes[0].classList.remove("ri-eye-line")
-        ele.childNodes[0].classList.add("ri-eye-off-line")
-    }
-    else {
-        ele.childNodes[0].classList.add("ri-eye-line")
-        ele.childNodes[0].classList.remove("ri-eye-off-line")
-    }
+  // 2) toggle its type
+  input.type = input.type === "password" ? "text" : "password";
+
+  // 3) find the <i> inside the button
+  const icon = btn.querySelector("i");
+  if (!icon) return;
+
+  // 4) swap classes
+  if (icon.classList.contains("fa-eye")) {
+    icon.classList.replace("fa-eye", "fa-eye-slash");
+  } else {
+    icon.classList.replace("fa-eye-slash", "fa-eye");
+  }
 }
+
+// Keep the old lowercase alias too, in case any markup still uses it
+window.createpassword = createPassword;

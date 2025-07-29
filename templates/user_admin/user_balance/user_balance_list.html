@@ -30,6 +30,7 @@
                                 <th>S/N</th>
                                 <th>Full name</th>
                                 <th>Balance</th>
+                                <th>Currency</th>
                                 <th>Update Balance</th>
                             </tr>
                         </thead>
@@ -40,6 +41,7 @@
                                 <td><a href="{% url 'admin:user-wallet-details' user_balance.id %}">
                                         {{ user_balance.user.first_name }} {{ user_balance.user.last_name }}</a></td>
                                 <td>{{ user_balance.balance }}</td>
+                                <td>{{ user_balance.currency }}</td>
                                 <td>
                                     <a href="{% url 'admin:manage-funds' user_balance.id %}"
                                         class="btn btn-primary">Manage Funds</a>
