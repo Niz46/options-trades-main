@@ -1,4 +1,5 @@
 from users.models import UserWallet
+from app.models import Notification
 
 
 def total_balance_user(request):
@@ -10,3 +11,11 @@ def total_balance_user(request):
         # Sum the balance of all wallets
         user_balance = sum(wallet.balance for wallet in user_wallets)
     return {"total_balance_user": user_balance}
+
+
+def unread_notification_count(request):
+    if request.user.is_authenticated:
+        count = Notification.objects.filter(user=request.user, read=False).count()
+    else:
+        count = 0
+    return {"notification_count": count}

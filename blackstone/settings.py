@@ -58,7 +58,9 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "user_admin.context_processors.total_balance_admin",
+                'user_admin.context_processors.unread_notification_count', 
                 "user.context_processors.total_balance_user",
+                "user.context_processors.unread_notification_count",
             ],
         },
     },
@@ -116,10 +118,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DEFAULT_EMAIL = os.getenv("DEFAULT_EMAIL")
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+if DEBUG:
+    # Prints email to the terminal
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+    # —or— to write each email to a file:
+    # EMAIL_BACKEND    = "django.core.mail.backends.filebased.EmailBackend"
+    # EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+else:
+    EMAIL_BACKEND    = "app.utils.CertifiEmailBackend"
+    EMAIL_HOST       = "smtp.gmail.com"
+    EMAIL_PORT       = 587
+    EMAIL_USE_TLS    = True
+    EMAIL_HOST_USER  = os.getenv("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")

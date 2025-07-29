@@ -36,24 +36,26 @@ class DashboardView(TemplateView):
     template_name = "user_admin/dashboard.html"
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Get total balance of all users grouped by wallet currency
-        wallet_balances = (
-            UserWallet.objects.values("currency")
+        ctx = super().get_context_data(**kwargs)
+        qs = UserWallet.objects.values("currency") \
             .annotate(total_balance=Sum("balance"))
-            .order_by("currency")
-        )
 
-        # Convert to a dictionary for easy template access
-        context["wallet_balances"] = {
-            wallet["currency"]: wallet["total_balance"] for wallet in wallet_balances
-        }
+        balances = {w["currency"]: w["total_balance"] for w in qs}
 
-        # Get latest 5 deposits
-        context["deposits"] = Deposit.objects.order_by("-date_created")[:5]
+        # Safely extract each one:
+        btc  = balances.get("BTC",  0)
+        eth  = balances.get("ETH",  0)
+        usdt = balances.get("USDT", 0)
+        ltc  = balances.get("LTC",  0)
 
-        return context
+        ctx["wallet_balances"] = balances
+        ctx["total_balance"]    = btc + eth + usdt + ltc
+        ctx["btc_balance"]      = btc
+        ctx["eth_balance"]      = eth
+        ctx["usdt_balance"]     = usdt
+        ctx["ltc_balance"]      = ltc
+        ctx["deposits"]         = Deposit.objects.order_by("-date_created")[:5]
+        return ctx
 
 
 @method_decorator(login_required, name="dispatch")
@@ -208,31 +210,33 @@ class DepositUpdateView(UpdateView):
     fields = ["status"]  # Only allow updating status
 
     def form_valid(self, form):
-        # Get the current status of the deposit
         deposit = form.save(commit=False)
-        previous_status = deposit.status
-
-        # Save the deposit with the new status
         deposit.save()
 
-        # Check if the status is changed to 'APPROVED'
-        if deposit.status == "APPROVED":
-            # Get the wallet based on the method selected (BTC, ETH, USDT, etc.)
-            wallet = get_object_or_404(
-                UserWallet, user=deposit.user, currency=deposit.crypto_currency
-            )
+        # normalize to code
+        mapping = {
+            "Bitcoin":  "BTC",
+            "Ethereum": "ETH",
+            "USDT":     "USDT",
+            "Litecoin": "LTC",
+        }
+        code = mapping.get(deposit.crypto_currency, deposit.crypto_currency)
 
-            # Add the deposit amount to the user's selected wallet
-            wallet.balance += deposit.amount
-            wallet.save()
+        wallet = get_object_or_404(
+            UserWallet,
+            user=deposit.user,
+            currency=code
+        )
+        wallet.balance += deposit.amount
+        wallet.save()
 
-            # Send email notification
-            send_mail(
-                "Deposit Successfully Confirmed by Admin",  # Subject
-                "The transaction has been successfully confirmed by the admin.",  # Confirmation message
-                settings.DEFAULT_EMAIL,  # From email (or use the admin's email if necessary)
-                [self.object.user.email],  # The user who made the transaction
-            )
+        # Send email notification
+        send_mail(
+            "Deposit Successfully Confirmed by Admin",  # Subject
+            "The transaction has been successfully confirmed by the admin.",  # Confirmation message
+            settings.DEFAULT_EMAIL,  # From email (or use the admin's email if necessary)
+            [self.object.user.email],  # The user who made the transaction
+        )
 
         return super().form_valid(form)
 

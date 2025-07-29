@@ -1195,20 +1195,20 @@ a:focus {
 }
 
 .dotted-pattern.dotted-pattern-top-left:before {
-    background: url(../images/dots-top-left-mobile.svg) no-repeat top left;
+    background: url("/static/img/images/dots-top-left-mobile.svg") no-repeat top left;
 }
 
 .dotted-pattern.dotted-pattern-top-right:before {
-    background: url(../images/dots-top-right-mobile.svg) no-repeat top right;
+    background: url("/static/img/images/dots-top-right-mobile.svg") no-repeat top right;
 }
 
 @media (min-width: 992px) {
     .dotted-pattern.dotted-pattern-top-left:before {
-        background-image: url(../images/dots-top-left.svg);
+        background-image: url("/static/img/images/dots-top-left.svg");
     }
 
     .dotted-pattern.dotted-pattern-top-right:before {
-        background-image: url(../images/dots-top-right.svg);
+        background-image: url("/static/img/images/dots-top-right.svg");
     }
 }
 
@@ -3171,7 +3171,7 @@ input[type="search"]::-webkit-search-decoration {
 
 /* 7. Homepage features + pitch section */
 .section-features-main-pitch {
-    background: var(--accent-color) url(../images/global-network.svg) no-repeat right bottom;
+    background: var(--accent-color) url("/static/img/images/global-network.svg") no-repeat right bottom;
     color: var(--accent-alt-color);
 }
 

@@ -51,11 +51,14 @@
 
                 <div class="header-content-right">
                     <div class="header-element notifications-dropdown">
-                        <a href="{% url 'user:notifications' %}" class="header-link dropdown-toggle"
-                            aria-expanded="false">
+                        <a href="{% url 'user:notifications' %}"
+                            class="header-link dropdown-toggle"
+                            title="{{ notification_count }} message{{ notification_count|pluralize }}">
                             <i class="bx bx-bell header-link-icon"></i>
                             <span class="badge bg-secondary rounded-pill header-icon-badge pulse pulse-secondary"
-                                id="notification-icon-badge">0</span>
+                                    id="notification-icon-badge">
+                                {{ notification_count }}
+                            </span>
                         </a>
                     </div>
 
@@ -166,6 +169,7 @@
         });
 
     </script>
+    {% include 'partials/_smartsupp.html' %}
 </body>
 
 </html>

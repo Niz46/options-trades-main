@@ -47,7 +47,7 @@
                                     <div>
                                         <p class="mb-1">USD</p>
                                         <p class="fs-20 mb-0 fw-semibold lh-1 text-primary">
-                                            ${{wallet_balances.BTC|default:0|add:wallet_balances.ETH|default:0|add:wallet_balances.USDT|add:wallet_balances.LTC|default:0|intcomma}}
+                                            ${{ total_balance|intcomma }}
                                         </p>
                                     </div>
                                     <div class="ms-auto text-end">
@@ -82,7 +82,7 @@
                                     <div>
                                         <p class="mb-1">BTC</p>
                                         <p class="fs-20 mb-0 fw-semibold lh-1 text-primary">
-                                            {{ wallet_balances.BTC|default:0|intcomma }}
+                                            ${{ btc_balance|intcomma }}
                                         </p>
                                     </div>
                                     <div class="ms-auto text-end">
@@ -117,7 +117,7 @@
                                     <div>
                                         <p class="mb-1">ETH</p>
                                         <p class="fs-20 mb-0 fw-semibold lh-1 text-primary">
-                                            {{ wallet_balances.ETH|default:0|intcomma }}
+                                            ${{ eth_balance|intcomma }}
                                         </p>
                                     </div>
                                     <div class="ms-auto text-end">
@@ -141,7 +141,7 @@
                                             </span>
                                         </div>
                                         <div class="mb-0 fw-semibold">
-                                           USD Tether Balance
+                                           Tether (TRC20) Balance
                                         </div>
                                     </div>
                                     <div class="ms-auto">
@@ -152,7 +152,7 @@
                                     <div>
                                         <p class="mb-1">USDT</p>
                                         <p class="fs-20 mb-0 fw-semibold lh-1 text-primary">
-                                            {{ wallet_balances.USDT|default:0|intcomma }}
+                                            ${{ usdt_balance|intcomma }}
                                         </p>
                                     </div>
                                     <div class="ms-auto text-end">
@@ -186,7 +186,7 @@
                                     <div>
                                         <p class="mb-1">LTC</p>
                                         <p class="fs-20 mb-0 fw-semibold lh-1 text-primary">
-                                            {{ wallet_balances.LTC|default:0|intcomma }}
+                                            ${{ ltc_balance|intcomma }}
                                         </p>
                                     </div>
                                     <div class="ms-auto text-end">

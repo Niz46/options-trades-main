@@ -171,11 +171,11 @@ class DepositConfirmationView(TemplateView):
 
         # Map method to the choices in Deposit.CRYPTO_CHOICES
         method_mapping = {
-            "BITCOIN": "Bitcoin",
-            "ETHEREUM": "Ethereum",
-            "USDT": "USDT",
-            "LITECOIN": "Litecoin",
-            "BANK": "Bank",
+            "BITCOIN":  "BTC",
+            "ETHEREUM": "ETH",
+            "USDT":     "USDT",
+            "LITECOIN": "LTC",
+            "BANK":     "BANK",
         }
 
         crypto_currency = method_mapping.get(method.upper())
@@ -441,13 +441,15 @@ class Profile(TemplateView):
 class Notifications(TemplateView):
     template_name = "user/notifications.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
+        # Mark all unread for this user as read
+        Notification.objects.filter(user=request.user, read=False).update(read=True)
+        return super().get(request, *args, **kwargs)
 
-        context["notifications"] = Notification.objects.filter(
-            user=self.request.user
-        ).order_by("-created_at")
-        return context
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["notifications"] = Notification.objects.filter(user=self.request.user).order_by("-created_at")
+        return ctx
 
 
 @method_decorator(login_required, name="dispatch")

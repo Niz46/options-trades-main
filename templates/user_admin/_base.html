@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://php.spruko.com/ynex/ynex/assets/libs/apexcharts/apexcharts.css" />
     <link href="{% static 'assets/fontawesome/css/all.min.css' %}" rel="stylesheet" />
     <link href="{% static 'assets/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
-    <!-- <link href="{% static 'user_admin/css/style.css' %}" rel="stylesheet"> -->
+    <link href="{% static 'user_admin/css/style.css' %}" rel="stylesheet">
     <link href="{% static 'css/styles2.css' %}" rel="stylesheet">
 
 </head>
@@ -41,6 +41,17 @@
                 </div>
 
                 <div class="header-content-right">
+                    <div class="header-element notifications-dropdown">
+                        <a href="{% url 'admin:notifications-list' %}"
+                            class="header-link dropdown-toggle"
+                            title="{{ notification_count }} message{{ notification_count|pluralize }}">
+                            <i class="bx bx-bell header-link-icon"></i>
+                            <span class="badge bg-secondary rounded-pill header-icon-badge pulse pulse-secondary"
+                                    id="notification-icon-badge">
+                                {{ notification_count }}
+                            </span>
+                        </a>
+                    </div>
 
                     <div class="header-element">
                         <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile"

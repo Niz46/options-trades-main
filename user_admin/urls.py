@@ -45,5 +45,5 @@ urlpatterns = [
         name="withdrawal-delete",
     ),
     path("compose-mail/", AdminEmailView.as_view(), name="compose-mail"),
-    path("notifications.", NotificationsListView.as_view(), name="notifications-list"),
+    path("notifications/", NotificationsListView.as_view(), name="notifications-list"),
 ]
