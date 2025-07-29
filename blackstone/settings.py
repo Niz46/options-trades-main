@@ -12,7 +12,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG").lower() == "true"
 
 ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ["automatedoptiontradeshub.com", "https://automatedoptiontradeshub.com"]
+# ALLOWED_HOSTS = ["profitnexusoptionhub.shop", "https://profitnexusoptionhub.shop"]
 
 APP_URL = os.getenv("APP_URL")
 
