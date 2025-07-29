@@ -9,16 +9,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-DEBUG = os.getenv("DEBUG").lower() == "true"
+DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 
 if DEBUG:
     ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 else:
-    ALLOWED_HOSTS = ["profitnexusoptionhub.shop", "https://profitnexusoptionhub.shop", "www.profitnexusoptionhub.shop"]
-# ALLOWED_HOSTS = ["profitnexusoptionhub.shop", "https://profitnexusoptionhub.shop"]
-
-APP_URL = os.getenv("APP_URL")
-
+    APP_URL = os.getenv("APP_URL", "")
+    ALLOWED_HOSTS = [
+        domain.strip().replace("https://", "").replace("http://", "")
+        for domain in APP_URL.split(",")
+        if domain.strip()
+    ]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -74,12 +75,12 @@ WSGI_APPLICATION = "blackstone.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("MYSQL_NAME"),
-        "USER": os.getenv("MYSQL_USER"),
-        "PASSWORD": os.getenv("MYSQL_PASSWORD"),
-        "HOST": os.getenv("MYSQL_HOST"),
-        "PORT": os.getenv("MYSQL_PORT"),
+        "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.postgresql"),
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST": os.getenv("DB_HOST", "localhost"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
 
