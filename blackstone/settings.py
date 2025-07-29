@@ -11,7 +11,10 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = os.getenv("DEBUG").lower() == "true"
 
-ALLOWED_HOSTS = ["profitnexusoptionhub.shop", "https://profitnexusoptionhub.shop"]
+if DEBUG:
+    ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+else:
+    ALLOWED_HOSTS = ["profitnexusoptionhub.shop", "https://profitnexusoptionhub.shop", "www.profitnexusoptionhub.shop"]
 # ALLOWED_HOSTS = ["profitnexusoptionhub.shop", "https://profitnexusoptionhub.shop"]
 
 APP_URL = os.getenv("APP_URL")
