@@ -1,24 +1,18 @@
----
-# cPanel Git Deployment config
 deployment:
   tasks:
-    # 1. Activate the virtualenv (cPanel sets $HOME/.virtualenvs/<app>/bin in PATH)
     - echo "Installing dependencies…"
     - pip install --upgrade pip
     - pip install -r requirements.txt
 
-    # 2. Run Django migrations
     - echo "Running migrations…"
     - python manage.py migrate --noinput
 
-    # 3. Collect static files
     - echo "Collecting static files…"
     - python manage.py collectstatic --noinput
 
-    # 4. (Optional) Create superuser, seed data, etc.
+    # Optional seeds / superuser:
     # - echo "Creating superuser…"
     # - python manage.py createsuperuser --noinput --username admin --email admin@example.com
 
-    # 5. Restart the Python app so changes take effect
     - echo "Restarting application…"
     - passenger-config restart-app $(pwd)
