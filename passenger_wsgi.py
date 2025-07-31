@@ -1,16 +1,14 @@
-import sys
 import os
+import sys
 
-# 1. Add your project’s root directory to the Python path
-project_home = os.path.dirname(__file__)
-if project_home not in sys.path:
-    sys.path.insert(0, project_home)
+# 1) Add project root and project package to PYTHONPATH
+project_root = os.path.dirname(__file__)
+sys.path.insert(0, project_root)
+sys.path.insert(0, os.path.join(project_root, "blackstone"))
 
-# 2. Set Django settings module
+# 2) Set the settings module
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "blackstone.settings")
 
-# 3. Activate your virtualenv, if not auto‑activated by cPanel
-#    passenger_wsgi will do this for you if you use the “Setup Python App” tool.
-
+# 3) Get the WSGI app
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
