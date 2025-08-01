@@ -15,9 +15,12 @@
   ],
   "routes": [
     {
-      "src": "/(static|media)/(.*)",
-      "headers": { "cache-control": "max-age=31536000, immutable" },
-      "dest": "/passenger_wsgi.py"
+      "handle": "filesystem"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/staticfiles/$1",
+      "headers": { "cache-control": "max-age=31536000, immutable" }
     },
     {
       "src": "/(.*)",
