@@ -23,11 +23,16 @@ if DEBUG:
     ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 else:
     ALLOWED_HOSTS = [
-    "https://profitnexusoptionhub.shop",
-    "www.profitnexusoptionhub.shop",
-    "options-trades.vercel.app",
-    ".vercel.app",  # <--- allows all subdomains like *.vercel.app
-]
+        # Your production domain(s) — no https://, no slash
+        "profitnexusoptionhub.shop",
+        "www.profitnexusoptionhub.shop",
+
+        # Vercel production host
+        "options-trades.vercel.app",
+
+        # Catch any preview subdomain on vercel.app
+        ".vercel.app",
+    ]
 
 
 # -----------------------------------------------------------------------------
