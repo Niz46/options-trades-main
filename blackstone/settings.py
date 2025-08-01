@@ -13,13 +13,16 @@ DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 if DEBUG:
     ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 else:
-    APP_URLS = os.getenv("APP_URL", "")
-    ALLOWED_HOSTS = [
+    # your custom domains from ENV
+    APP_URLS = os.getenv("APP_URL", "") 
+    custom = [
         domain.strip().replace("https://", "").replace("http://", "")
         for domain in APP_URLS.split(",")
         if domain.strip()
     ]
-    ALLOWED_HOSTS.append("options-trades.vercel.app")
+    # allow *all* vercel.app subdomains:
+    custom.append(".vercel.app")
+    ALLOWED_HOSTS = custom
 # ──────────────────────────────────────────────────────────────────────────────
 
 INSTALLED_APPS = [
