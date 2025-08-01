@@ -17,6 +17,8 @@ try:
     # 3) Initialize Django
     from django.core.wsgi import get_wsgi_application
     application = get_wsgi_application()
+    
+    app = application  # For compatibility with Passenger
 except Exception:
     logging.exception("Failed to load WSGI application")
     # Re-raise so Passenger still sees a 500
