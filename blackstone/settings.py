@@ -23,20 +23,12 @@ if DEBUG:
     ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 else:
     ALLOWED_HOSTS = [
-        # your custom domains
-        "https://profitnexusoptionhub.shop",
-        "www.profitnexusoptionhub.shop",
+    "https://profitnexusoptionhub.shop",
+    "www.profitnexusoptionhub.shop",
+    "options-trades.vercel.app",
+    ".vercel.app",  # <--- allows all subdomains like *.vercel.app
+]
 
-        # your primary Vercel domain
-        "options-trades.vercel.app",
-
-        # any specific preview URLs you need
-        "options-trades-git-master-niz46s-projects.vercel.app",
-        "options-trades-6oiboh88x-niz46s-projects.vercel.app",
-        
-        # (optional) catch-all for any other preview domains
-        ".vercel.app",
-    ]
 
 # -----------------------------------------------------------------------------
 # 4) Installed apps, middleware, URLs, templates, WSGI, etc.
