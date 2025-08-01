@@ -3,16 +3,14 @@
   "builds": [
     {
       "src": "requirements.txt",
-      "use": "@vercel/python",
-      "config": {
-        "installCommand": "pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput"
-      }
+      "use": "@vercel/python"
     },
     {
       "src": "passenger_wsgi.py",
       "use": "@vercel/python"
     }
   ],
+  "buildCommand": "pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic",
   "routes": [
     {
       "src": "/static/(.*)",
