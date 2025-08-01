@@ -23,11 +23,5 @@
       "src": "/(.*)",
       "dest": "/passenger_wsgi.py"
     }
-  ],
-  "functions": {
-    "passenger_wsgi.py": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  }
+  ]
 }
