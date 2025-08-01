@@ -22,29 +22,21 @@ DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 if DEBUG:
     ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 else:
-    allowed = []
+    ALLOWED_HOSTS = [
+        # your custom domains
+        "https://profitnexusoptionhub.shop",
+        "www.profitnexusoptionhub.shop",
 
-    # 3a) your own domains, from APP_URL env var
-    raw = os.getenv("APP_URL", "")
-    for d in raw.split(","):
-        clean = (
-            d.strip()
-             .removeprefix("https://")
-             .removeprefix("http://")
-             .rstrip("/")
-        )
-        if clean:
-            allowed.append(clean)
+        # your primary Vercel domain
+        "options-trades.vercel.app",
 
-    # 3b) the specific Vercel hostname for _this_ deploy
-    vercel = os.getenv("VERCEL_URL")
-    if vercel:
-        allowed.append(vercel)
-
-    # 3c) wildcard for every *.vercel.app (covering previews, branches, etc.)
-    allowed.append(".vercel.app")
-
-    ALLOWED_HOSTS = allowed
+        # any specific preview URLs you need
+        "options-trades-git-master-niz46s-projects.vercel.app",
+        "options-trades-6oiboh88x-niz46s-projects.vercel.app",
+        
+        # (optional) catch-all for any other preview domains
+        ".vercel.app",
+    ]
 
 # -----------------------------------------------------------------------------
 # 4) Installed apps, middleware, URLs, templates, WSGI, etc.
