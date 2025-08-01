@@ -23,6 +23,7 @@ else:
     ALLOWED_HOSTS = [
         "profitnexusoptionhub.shop",
         "www.profitnexusoptionhub.shop",
+        "options-trades.onrender.com",
         "options-trades.vercel.app",
         ".vercel.app",
     ]
