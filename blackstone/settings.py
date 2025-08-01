@@ -6,27 +6,21 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 SECRET_KEY = os.getenv("SECRET_KEY")
-
 DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 
-# ───── Temporary DEBUG OVERRIDE ──────────────────────────────────────────────
-# Enable full error pages so we can see the traceback for the 500 on “www.”
-# Remove these two lines once you’ve captured the error.
-DEBUG = True
-ALLOWED_HOSTS = ["*"]
-# ──────────────────────────────────────────────────────────────────────────────
-
+# ─────── ALLOWED HOSTS ────────────────────────────────────────────────────────
 if DEBUG:
     ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 else:
-    APP_URL = os.getenv("APP_URL", "")
+    APP_URLS = os.getenv("APP_URL", "")
     ALLOWED_HOSTS = [
         domain.strip().replace("https://", "").replace("http://", "")
-        for domain in APP_URL.split(",")
+        for domain in APP_URLS.split(",")
         if domain.strip()
     ]
+    ALLOWED_HOSTS.append("options-trades.vercel.app")
+# ──────────────────────────────────────────────────────────────────────────────
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -70,7 +64,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "user_admin.context_processors.total_balance_admin",
-                'user_admin.context_processors.unread_notification_count', 
+                "user_admin.context_processors.unread_notification_count",
                 "user.context_processors.total_balance_user",
                 "user.context_processors.unread_notification_count",
             ],
@@ -79,7 +73,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "blackstone.wsgi.application"
-
 
 DATABASES = {
     "default": {
@@ -107,17 +100,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_TZ = True
 
 AUTH_USER_MODEL = "users.User"
-
 
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -129,18 +117,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR / "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# ─────── Email Settings ───────────────────────────────────────────────────────
 DEFAULT_EMAIL = os.getenv("DEFAULT_EMAIL")
 
 if DEBUG:
-    # Prints email to the terminal
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-    # —or— to write each email to a file:
-    # EMAIL_BACKEND    = "django.core.mail.backends.filebased.EmailBackend"
-    # EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 else:
-    EMAIL_BACKEND    = "app.utils.CertifiEmailBackend"
-    EMAIL_HOST       = "smtp.gmail.com"
-    EMAIL_PORT       = 587
-    EMAIL_USE_TLS    = True
-    EMAIL_HOST_USER  = os.getenv("EMAIL_HOST_USER")
+    EMAIL_BACKEND = "app.utils.CertifiEmailBackend"
+    EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
+    EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
+    EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "true").lower() == "true"
+    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
