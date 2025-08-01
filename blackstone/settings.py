@@ -11,6 +11,13 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 
+# ───── Temporary DEBUG OVERRIDE ──────────────────────────────────────────────
+# Enable full error pages so we can see the traceback for the 500 on “www.”
+# Remove these two lines once you’ve captured the error.
+DEBUG = True
+ALLOWED_HOSTS = ["*"]
+# ──────────────────────────────────────────────────────────────────────────────
+
 if DEBUG:
     ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 else:
