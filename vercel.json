@@ -5,7 +5,7 @@
       "src": "requirements.txt",
       "use": "@vercel/python",
       "config": {
-        "installCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+        "installCommand": "pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput"
       }
     },
     {
