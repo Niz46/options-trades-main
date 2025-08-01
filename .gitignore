@@ -8,15 +8,15 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
+# build/
 develop-eggs/
-dist/
+# dist/
 downloads/
 eggs/
 .eggs/
 lib64/
 parts/
-sdist/
+# sdist/
 var/
 wheels/
 share/python-wheels/
@@ -26,8 +26,6 @@ share/python-wheels/
 MANIFEST
 
 # PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
 
@@ -69,7 +67,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
-/migrations/
+#migrations/
 
 # PyBuilder
 .pybuilder/
@@ -103,7 +101,7 @@ ENV/
 env.bak/
 venv.bak/
 
-media/
+#media/
 
 # Spyder project settings
 .spyderproject
@@ -120,7 +118,7 @@ media/
 .dmypy.json
 dmypy.json
 
-staticfiles/
+#staticfiles/
 
 # Pyre type checker
 .pyre/
@@ -131,6 +129,6 @@ staticfiles/
 # Cython debug symbols
 cython_debug/
 
-idea/
+.idea/
 .vscode/
 .DS_Store
