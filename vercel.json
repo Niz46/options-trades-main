@@ -1,11 +1,6 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "passenger_wsgi.py",
-      "use": "@vercel/python"
-    }
-  ],
+  "buildCommand": "python3 -m pip install -r requirements.txt && python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput",
+  "outputDirectory": "staticfiles",
   "routes": [
     {
       "src": "/static/(.*)",
