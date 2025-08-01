@@ -1,30 +1,54 @@
+# settings.py
+
 from pathlib import Path
 import os
 from dotenv import load_dotenv
 
+# -----------------------------------------------------------------------------
+# 1) Load .env (for local dev) and basic paths
+# -----------------------------------------------------------------------------
 load_dotenv()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# -----------------------------------------------------------------------------
+# 2) Core settings
+# -----------------------------------------------------------------------------
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 
-# ─────── ALLOWED HOSTS ────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
+# 3) ALLOWED_HOSTS: custom domains + this Vercel URL + all vercel.app
+# -----------------------------------------------------------------------------
 if DEBUG:
     ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 else:
-    # your custom domains from ENV
-    APP_URLS = os.getenv("APP_URL", "") 
-    custom = [
-        domain.strip().replace("https://", "").replace("http://", "")
-        for domain in APP_URLS.split(",")
-        if domain.strip()
-    ]
-    # allow *all* vercel.app subdomains:
-    custom.append(".vercel.app")
-    ALLOWED_HOSTS = custom
-# ──────────────────────────────────────────────────────────────────────────────
+    allowed = []
 
+    # 3a) your own domains, from APP_URL env var
+    raw = os.getenv("APP_URL", "")
+    for d in raw.split(","):
+        clean = (
+            d.strip()
+             .removeprefix("https://")
+             .removeprefix("http://")
+             .rstrip("/")
+        )
+        if clean:
+            allowed.append(clean)
+
+    # 3b) the specific Vercel hostname for _this_ deploy
+    vercel = os.getenv("VERCEL_URL")
+    if vercel:
+        allowed.append(vercel)
+
+    # 3c) wildcard for every *.vercel.app (covering previews, branches, etc.)
+    allowed.append(".vercel.app")
+
+    ALLOWED_HOSTS = allowed
+
+# -----------------------------------------------------------------------------
+# 4) Installed apps, middleware, URLs, templates, WSGI, etc.
+# -----------------------------------------------------------------------------
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -52,13 +76,12 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
-
 ROOT_URLCONF = "blackstone.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR / "templates")],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -77,6 +100,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "blackstone.wsgi.application"
 
+# -----------------------------------------------------------------------------
+# 5) Database (Neon Postgres)
+# -----------------------------------------------------------------------------
 DATABASES = {
     "default": {
         "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.postgresql"),
@@ -88,47 +114,41 @@ DATABASES = {
     }
 }
 
+# -----------------------------------------------------------------------------
+# 6) Auth, i18n, static/media, default auto field
+# -----------------------------------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
-
 AUTH_USER_MODEL = "users.User"
 
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-STATICFILES_DIRS = (os.path.join(BASE_DIR / "static"),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR / "media")
-
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# ─────── Email Settings ───────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
+# 7) Email settings
+# -----------------------------------------------------------------------------
 DEFAULT_EMAIL = os.getenv("DEFAULT_EMAIL")
-
 if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 else:
     EMAIL_BACKEND = "app.utils.CertifiEmailBackend"
-    EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
-    EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
-    EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "true").lower() == "true"
-    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+    EMAIL_HOST       = os.getenv("EMAIL_HOST", "smtp.gmail.com")
+    EMAIL_PORT       = int(os.getenv("EMAIL_PORT", 587))
+    EMAIL_USE_TLS    = os.getenv("EMAIL_USE_TLS", "true").lower() == "true"
+    EMAIL_HOST_USER  = os.getenv("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
