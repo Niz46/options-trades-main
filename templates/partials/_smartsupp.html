@@ -1,40 +1,23 @@
-<!-- 1) Initialize Smartsupp settings before loading the script -->
-<script type="text/javascript">
+<!-- 1) Configuration -->
+<script>
   window._smartsupp = window._smartsupp || {};
-  _smartsupp.key                       = 'a45ed788fe4e86449313fbb11dcb6dba5de811be';
-  _smartsupp.privacyNoticeEnabled       = true;
-  _smartsupp.privacyNoticeUrl           = 'https://options-trades.onrender.com/privacy';
+  _smartsupp.key = "a45ed788fe4e86449313fbb11dcb6dba5de811be";
+  _smartsupp.privacyNoticeEnabled = true;
+  _smartsupp.privacyNoticeUrl = "https://options-trades.onrender.com/privacy";
   _smartsupp.privacyNoticeCheckRequired = true;
-</script>
-
-<!-- 2) Hook your CMP’s consent events into Smartsupp -->
-<script type="text/javascript">
-  window.addEventListener('CookiebotOnAccept', function () {
-    smartsupp('analyticsConsent', Cookiebot.consent.statistics);
-    smartsupp('marketingConsent', Cookiebot.consent.marketing);
+  window.addEventListener("CookiebotOnAccept", function () {
+    smartsupp("analyticsConsent", Cookiebot.consent.statistics);
+    smartsupp("marketingConsent", Cookiebot.consent.marketing);
   });
-
-  window.addEventListener('CookiebotOnDecline', function () {
-    smartsupp('analyticsConsent', false);
-    smartsupp('marketingConsent', false);
+  window.addEventListener("CookiebotOnDecline", function () {
+    smartsupp("analyticsConsent", false);
+    smartsupp("marketingConsent", false);
   });
 </script>
 
-<!-- 3) Load Smartsupp’s widget -->
-<script type="text/javascript">
-  (function(d) {
-    var s, c, o = smartsupp = function(){ o._.push(arguments) }; o._ = [];
-    s = d.getElementsByTagName('script')[0];
-    c = d.createElement('script');
-    c.type = 'text/javascript';
-    c.charset = 'utf-8';
-    c.async = true;
-    c.src = 'https://www.smartsuppchat.com/loader.js?';
-    s.parentNode.insertBefore(c, s);
-  })(document);
-</script>
-
-<noscript>
-  Powered by
-  <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a>
-</noscript>
+<!-- 2) Loader -->
+<script
+  async
+  charset="utf-8"
+  src="https://www.smartsuppchat.com/loader.js"
+></script>
