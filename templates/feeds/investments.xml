@@ -1,0 +1,23 @@
+{# templates/feeds/investments.xml #}
+<?xml version="1.0" encoding="UTF-8"?>
+<SHOP>
+  {% for plan in plans %}
+  <SHOPITEM>
+    <ITEM_ID>{{ plan.id }}</ITEM_ID>
+    <PRODUCTNAME>{{ plan.name|escape }}</PRODUCTNAME>
+    <DESCRIPTION>
+      Starting at {{ plan.starting_price }} {{ currency }}, 
+      returns {{ plan.returns_percentage }}% over {{ plan.duration_days }} days.
+    </DESCRIPTION>
+    <PRICE_VAT>{{ plan.starting_price }}</PRICE_VAT>
+    <CURRENCY>{{ currency }}</CURRENCY>
+    <URL>{{ site_url }}{% url 'investment_detail' plan.slug %}</URL>
+    {% if plan.get_type %}
+    <PARAM>
+      <PARAM_NAME>Type</PARAM_NAME>
+      <VAL>{{ plan.get_type }}</VAL>
+    </PARAM>
+    {% endif %}
+  </SHOPITEM>
+  {% endfor %}
+</SHOP>

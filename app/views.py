@@ -5,7 +5,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from users.models import User
 from django.contrib.auth.models import Group
-
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from .models import InvestmentPlan
 
 class Home(TemplateView):
     template_name = "index.html"
@@ -55,3 +57,15 @@ def custom_error_404(request, e):
 
 def custom_error_500(request):
     return render(request, "500.html", status=500)
+
+
+
+def investment_feed(request):
+    """Return an XML feed of all active InvestmentPlan records."""
+    plans = InvestmentPlan.objects.all()
+    xml = render_to_string('feeds/investments.xml', {
+        'plans': plans,
+        'site_url': request.scheme + '://' + request.get_host(),
+        'currency': 'EUR',
+    })
+    return HttpResponse(xml, content_type='application/xml')

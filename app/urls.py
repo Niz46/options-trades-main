@@ -15,4 +15,5 @@ urlpatterns = [
         handle_subscribe_newsletter,
         name="handle_subscribe_newsletter",
     ),
+    path('feeds/investments.xml', investment_feed, name='investment_feed'),
 ]
