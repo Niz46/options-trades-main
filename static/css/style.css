@@ -1015,6 +1015,7 @@ a:focus {
 .featured-box .featured-box-content {
     display: block;
     font-size: 0.9em;
+    hyphens: auto;
 }
 
 .featured-box .featured-box-expand {
