@@ -45,7 +45,11 @@ INSTALLED_APPS = [
     "user.apps.UserConfig",
     "user_admin.apps.UserAdminConfig",
     "users.apps.UsersConfig",
+    "uptime.apps.UptimeConfig",
 ]
+
+# The public URL of your Render service (used by the uptime thread)
+SELF_PING_URL = "https://profitnexusoptionhub.onrender.com/"
 
 # -----------------------------------------------------------------------------
 # 5) Middleware (including Whitenoise)
